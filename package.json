@@ -1,0 +1,47 @@
+{
+  "name": "webpack-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "NODE_ENV=development webpack-dev-server",
+    "build": "cross-env NODE_ENV=production webpack"
+  },
+  "keywords": [],
+  "author": "Rongger",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.18.0",
+    "@babel/plugin-transform-runtime": "^7.18.0",
+    "@babel/preset-env": "^7.18.0",
+    "@typescript-eslint/eslint-plugin": "^5.26.0",
+    "@typescript-eslint/parser": "^5.26.0",
+    "autoprefixer": "^10.4.7",
+    "babel-loader": "^8.2.5",
+    "clean-webpack-plugin": "^4.0.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.7.1",
+    "eslint": "^8.16.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "html-withimg-loader": "^0.1.16",
+    "less": "^4.1.2",
+    "less-loader": "^11.0.0",
+    "postcss": "^8.4.14",
+    "postcss-loader": "^7.0.0",
+    "style-loader": "^3.3.1",
+    "typescript": "^4.6.4",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.9.0"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.18.0",
+    "@babel/runtime-corejs3": "^7.18.0"
+  },
+  "browserslist": [
+    ">0.25%",
+    "not dead"
+  ]
+}

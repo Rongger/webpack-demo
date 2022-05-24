@@ -1,0 +1,11 @@
+# production
+/dist
+
+# misc
+.DS_Store
+npm-debug.log*
+yarn-error.log
+.pnpm-debug.log
+
+node_modules
+.git
