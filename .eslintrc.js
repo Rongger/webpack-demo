@@ -10,4 +10,9 @@ module.exports = {
     sourceType: "module",
   },
   rules: {},
+  globals: {
+    // React: true,
+    // Vue: true,
+    //....
+  },
 };

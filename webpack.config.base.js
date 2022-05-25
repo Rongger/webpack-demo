@@ -1,9 +1,13 @@
+const webpack = require("webpack");
+const { merge } = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+// const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCssPlugin = require("optimize-css-assets-webpack-plugin");
 const path = require("path");
 
-module.exports = {
-  mode: "development",
+const baseWebpackConfig = {
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "dist"), //必须是绝对路径
@@ -34,7 +38,8 @@ module.exports = {
         test: /\.(le|c)ss$/,
         // loader 的执行顺序是从后向前执行的
         use: [
-          "style-loader", // style-loader 动态创建 style 标签，将 css 插入到 head 中
+          // "style-loader", // style-loader 动态创建 style 标签，将 css 插入到 head 中
+          MiniCssExtractPlugin.loader, // 抽离css，将CSS文件单独打包
           "css-loader", // css-loader 负责处理 @import 等语句
           {
             loader: "postcss-loader",
@@ -82,11 +87,39 @@ module.exports = {
       // hash: true //是否加上hash，默认是 false
     }),
     new CleanWebpackPlugin(),
+    // new CopyWebpackPlugin([
+    //   {
+    //     from: "public/js/*.js",
+    //     to: path.resolve(__dirname, "dist", "js"),
+    //     flatten: true,
+    //   },
+    // ]),
+    new webpack.ProvidePlugin({
+      React: "react",
+      Component: ["react", "Component"],
+      Vue: ["vue/dist/vue.esm.js", "default"],
+      $: "jquery",
+      _map: ["lodash", "map"],
+    }),
+    new MiniCssExtractPlugin({
+      filename: "css/[name].css",
+    }),
+    new OptimizeCssPlugin(), // css压缩
+    new webpack.HotModuleReplacementPlugin(), // 热更新插件
+    new webpack.DefinePlugin({
+      // 定义环境变量
+      DEV: JSON.stringify("dev"), //字符串
+      FLAG: "true", //FLAG 是个布尔类型
+    }),
   ],
   devServer: {
     proxy: {
-      // proxy URLs to backend development server
-      "/api": "http://localhost:3000",
+      "/api": {
+        target: "http://localhost:4000",
+        pathRewrite: {
+          "/api": "",
+        },
+      },
     },
     static: path.join(__dirname, "public"), // boolean | string | array | object, static file location
     compress: true, // enable gzip compression
@@ -100,4 +133,16 @@ module.exports = {
     },
   },
   devtool: "cheap-module-source-map",
+  resolve: {
+    modules: ["./src/components", "node_modules"], // 从左到右依次查找，可以通过 import Dialog from 'dialog' 从 /src/components 引入
+    alias: {
+      "@src": path.resolve(__dirname, "src"),
+    },
+    extensions: [".js"], // 在缺省文件后缀时，告诉 webpack 优先访问哪个后缀文件
+    // enforceExtension: true, // 导入语句不能缺省文件后缀
+  },
+};
+
+module.exports = function mergeBase(config) {
+  return merge(baseWebpackConfig, config);
 };
