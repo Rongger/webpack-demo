@@ -42,7 +42,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
-    "@babel/runtime-corejs3": "^7.18.0"
+    "@babel/runtime-corejs3": "^7.18.0",
+    "moment": "^2.29.3"
   },
   "browserslist": [
     "last 2 version",

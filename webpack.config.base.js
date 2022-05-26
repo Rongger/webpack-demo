@@ -30,8 +30,10 @@ const baseWebpackConfig = {
                 },
               ],
             ],
+            cacheDirectory: true, // Webpack 构建，将会尝试读取缓存，来避免在每次执行时，可能产生的、高性能消耗的 Babel 重新编译过程
           },
         },
+        include: [path.resolve(__dirname, "src")],
         exclude: /node_modules/,
       },
       {
@@ -74,6 +76,7 @@ const baseWebpackConfig = {
         use: "html-withimg-loader",
       },
     ],
+    noParse: /jquery|lodash/, // 不进行转化和解析
   },
   plugins: [
     //数组 放着所有的webpack插件
@@ -111,6 +114,11 @@ const baseWebpackConfig = {
       DEV: JSON.stringify("dev"), //字符串
       FLAG: "true", //FLAG 是个布尔类型
     }),
+    //忽略 moment 下的 ./locale 目录
+    new webpack.IgnorePlugin({
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/,
+    }),
   ],
   devServer: {
     proxy: {
@@ -138,7 +146,7 @@ const baseWebpackConfig = {
     alias: {
       "@src": path.resolve(__dirname, "src"),
     },
-    extensions: [".js"], // 在缺省文件后缀时，告诉 webpack 优先访问哪个后缀文件
+    extensions: [".js"], // 在缺省文件后缀时，告诉 webpack 优先访问哪个后缀文件，记住将频率最高的后缀放在第一位，并且控制列表的长度，以减少尝试次数
     // enforceExtension: true, // 导入语句不能缺省文件后缀
   },
 };
