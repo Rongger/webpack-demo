@@ -11,8 +11,9 @@ const baseWebpackConfig = {
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "dist"), //必须是绝对路径
-    filename: "bundle.[hash:8].js",
+    filename: "[name].[hash:8].js",
     publicPath: "/", //通常是CDN地址
+    chunkFilename: "[id].[chunkhash].js",
   },
   module: {
     rules: [
@@ -159,6 +160,33 @@ const baseWebpackConfig = {
     // jquery通过script引入之后，全局中即有了 jQuery 变量
     // 可以将一些JS文件存储在 CDN 上(减少 Webpack打包出来的 js 体积)
     jquery: "jQuery",
+  },
+  optimization: {
+    runtimeChunk: {
+      name: "manifest",
+    },
+    splitChunks: {
+      //分割代码块
+      cacheGroups: {
+        vendor: {
+          //第三方依赖
+          priority: 1, //设置优先级，首先抽离第三方模块
+          name: "vendor",
+          test: /node_modules/,
+          chunks: "initial",
+          minSize: 0,
+          minChunks: 1, //最少引入了1次
+        },
+        //缓存组
+        common: {
+          //公共模块
+          chunks: "initial",
+          name: "common",
+          minSize: 100, //大小超过100个字节
+          minChunks: 3, //最少引入了3次
+        },
+      },
+    },
   },
 };
 
