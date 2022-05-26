@@ -1,14 +1,16 @@
 {
   "name": "webpack-demo",
   "version": "1.0.0",
-  "description": "",
+  "description": "a webpack5 demo",
   "main": "index.js",
   "scripts": {
     "dev": "cross-env webpack-dev-server  --config=webpack.config.dev.js",
     "build": "cross-env webpack  --config=webpack.config.prod.js",
     "build:dll": "cross-env webpack --config webpack.config.dll.js"
   },
-  "keywords": [],
+  "keywords": [
+    "webpack"
+  ],
   "author": "Rongger",
   "license": "ISC",
   "devDependencies": {
