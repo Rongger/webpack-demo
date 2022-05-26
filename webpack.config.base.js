@@ -21,7 +21,7 @@ const baseWebpackConfig = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env"],
+            presets: ["@babel/preset-env", "@babel/preset-react"],
             plugins: [
               [
                 "@babel/plugin-transform-runtime",
@@ -79,6 +79,10 @@ const baseWebpackConfig = {
     noParse: /jquery|lodash/, // 不进行转化和解析
   },
   plugins: [
+    // 读取 manifest.json 获得动态链接库的 api
+    new webpack.DllReferencePlugin({
+      manifest: path.resolve(__dirname, "dist", "dll", "manifest.json"),
+    }),
     //数组 放着所有的webpack插件
     new HtmlWebpackPlugin({
       template: "./public/index.html",
@@ -89,7 +93,9 @@ const baseWebpackConfig = {
       },
       // hash: true //是否加上hash，默认是 false
     }),
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: ["**/*", "!dll", "!dll/**"], //不删除dll目录
+    }),
     // new CopyWebpackPlugin([
     //   {
     //     from: "public/js/*.js",
@@ -148,6 +154,11 @@ const baseWebpackConfig = {
     },
     extensions: [".js"], // 在缺省文件后缀时，告诉 webpack 优先访问哪个后缀文件，记住将频率最高的后缀放在第一位，并且控制列表的长度，以减少尝试次数
     // enforceExtension: true, // 导入语句不能缺省文件后缀
+  },
+  externals: {
+    // jquery通过script引入之后，全局中即有了 jQuery 变量
+    // 可以将一些JS文件存储在 CDN 上(减少 Webpack打包出来的 js 体积)
+    jquery: "jQuery",
   },
 };
 
