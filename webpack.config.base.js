@@ -81,9 +81,9 @@ const baseWebpackConfig = {
   },
   plugins: [
     // 读取 manifest.json 获得动态链接库的 api
-    new webpack.DllReferencePlugin({
-      manifest: path.resolve(__dirname, "dist", "dll", "manifest.json"),
-    }),
+    // new webpack.DllReferencePlugin({
+    //   manifest: path.resolve(__dirname, "dist", "dll", "manifest.json"),
+    // }),
     //数组 放着所有的webpack插件
     new HtmlWebpackPlugin({
       template: "./public/index.html",
@@ -162,9 +162,9 @@ const baseWebpackConfig = {
     jquery: "jQuery",
   },
   optimization: {
-    runtimeChunk: {
-      name: "manifest",
-    },
+    // runtimeChunk: {
+    //   name: "manifest",
+    // },
     splitChunks: {
       //分割代码块
       cacheGroups: {
