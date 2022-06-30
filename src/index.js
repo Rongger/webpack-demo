@@ -1,7 +1,7 @@
 import "./index.less";
 import catImg from "../images/cat.jpg";
-import dialog from "dialog";
-import moment from "moment";
+import Dialog from "dialog";
+// import moment from "moment";
 import "moment/locale/zh-cn"; // 手动引入
 import React from "react";
 import { createRoot } from "react-dom/client";
@@ -23,7 +23,6 @@ class Animal {
 }
 
 const dog = new Animal("dog");
-console.log(dog, dialog, moment);
 
 function App() {
   return (
@@ -35,6 +34,7 @@ function App() {
         width="100"
         height="100"
       ></img>
+      <Dialog name="dialog" />
     </div>
   );
 }

@@ -18,6 +18,11 @@ const baseWebpackConfig = {
   module: {
     rules: [
       {
+        test: /\.tsx?$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
+      },
+      {
         test: /\.jsx?$/,
         use: {
           loader: "babel-loader",
@@ -128,6 +133,9 @@ const baseWebpackConfig = {
     }),
   ],
   devServer: {
+    // 自动打开浏览器，或打开多个指定页面
+    open: false,
+    // open: ["/my-page", "/another-page"],
     proxy: {
       "/api": {
         target: "http://localhost:4000",
@@ -153,7 +161,7 @@ const baseWebpackConfig = {
     alias: {
       "@src": path.resolve(__dirname, "src"),
     },
-    extensions: [".js"], // 在缺省文件后缀时，告诉 webpack 优先访问哪个后缀文件，记住将频率最高的后缀放在第一位，并且控制列表的长度，以减少尝试次数
+    extensions: [".tsx", ".ts", ".js"], // 在缺省文件后缀时，告诉 webpack 优先访问哪个后缀文件，记住将频率最高的后缀放在第一位，并且控制列表的长度，以减少尝试次数
     // enforceExtension: true, // 导入语句不能缺省文件后缀
   },
   externals: {
